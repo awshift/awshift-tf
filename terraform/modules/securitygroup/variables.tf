@@ -14,7 +14,7 @@ variable "vpc_id" {
 }
 
 variable "ingress_rules" {
-  default = "Ingress for your current security group"
+  description = "Ingress for your current security group"
   type = object({
     description = optional(string)
     ip_protocol = optional(string, "tcp")
@@ -25,7 +25,7 @@ variable "ingress_rules" {
 }
 
 variable "egress_rules" {
-  default = "Egress for your current security group"
+  description = "Egress for your current security group"
   type = object({
     description = optional(string)
     ip_protocol = optional(string, "tcp")
