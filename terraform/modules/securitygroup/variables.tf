@@ -23,3 +23,18 @@ variable "ingress_rules" {
     source      = string
   })
 }
+
+variable "egress_rules" {
+  default = "Egress for your current security group"
+  type = object({
+    description = optional(string)
+    ip_protocol = optional(string, "tcp")
+    to_port     = number
+    from_port   = number
+    destination = string
+  })
+}
+
+locals {
+  valid_cidr = "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/([0-9]|[1-2][0-9]|3[0-2])$"
+}
