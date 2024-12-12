@@ -18,6 +18,7 @@ resource "aws_vpc_security_group_ingress_rule" "main" {
   # Optional arguments, thanks to default value 'tcp'
   ip_protocol = each.value.ip_protocol
   from_port   = each.value.from_port
+  to_port     = each.value.to_port != null ? each.value.to_port : each.value.from_port
 
   # Source parts, with multiple solutions
   # If the ingress source matches a valid CIDR
