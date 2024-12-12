@@ -18,10 +18,11 @@ resource "aws_vpc_security_group_ingress_rule" "main" {
   # Optional arguments, thanks to default value 'tcp'
   ip_protocol = each.value.ip_protocol
   from_port   = each.value.from_port
+  to_port     = each.value.to_port != null ? each.value.to_port : each.value.from_port
 
   # Source parts, with multiple solutions
   # If the ingress source matches a valid CIDR
-  cidr_ipv4 = regex(local.valid_cidr, each.value.source) != "" ? each.value.source : null
+  cidr_ipv4 = each.value.source != "" ? each.value.source : null
 
   # If self_reference is set to true, refereenced-sg will be the himself
   # Elsif the ingress source starts with a security group ARN, it's valid. 
