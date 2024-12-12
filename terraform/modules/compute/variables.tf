@@ -13,9 +13,9 @@ variable "node_type" {
 locals {
   fedoracoreOS = "ami-011931490025934ea" # FedoraCoreOS v41
 
-  boostrap_instance_type   = "t4g.xlarge" # CPU : 4 | RAM : 16GB
-  controller_instance_type = "t4g.xlarge" # CPU : 4 | RAM : 16GB
-  compute_instance_type    = "t4g.large"  # CPU : 2 | RAM : 8GB
+  boostrap_instance_type   = "t3.xlarge" # CPU : 4 | RAM : 16GB
+  controller_instance_type = "m5.large"  # CPU : 4 | RAM : 16GB
+  compute_instance_type    = "t3.large"  # CPU : 2 | RAM : 8GB
 
   # For node type condition
   compute       = var.node_type == "compute" ? local.compute_instance_type : ""
