@@ -18,23 +18,24 @@ variable "ingress_rules" {
   type = list(object({
     description    = optional(string)
     ip_protocol    = optional(string, "tcp")
-    to_port        = optional(number, null)
     from_port      = number
+    to_port        = optional(number, null)
     source         = optional(string, "")
     self_reference = optional(bool, false)
   }))
 }
 
-variable "egress_rules" {
-  description = "Egress for your current security group"
-  type = object({
-    description = optional(string)
-    ip_protocol = optional(string, "tcp")
-    to_port     = number
-    from_port   = number
-    destination = string
-  })
-}
+# variable "egress_rules" {
+#   description = "Egress for your current security group"
+#   type = list(object({
+#     description = optional(string)
+#     ip_protocol = optional(string, "tcp")
+#     from_port   = number
+#     to_port     = optional(number, null)
+#     destination = optional(string, "")
+#     # self_reference = optional(bool, false)
+#   }))
+# }
 
 locals {
   valid_cidr = "^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/([0-9]|[1-2][0-9]|3[0-2])$"
