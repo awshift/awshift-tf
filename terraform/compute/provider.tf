@@ -6,15 +6,16 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "dhole-backend"
-    key    = "state/terraform.tfstate"
-    region = "eu-west-1"
+    bucket  = "awshift-backend"
+    key     = "state/compute.tfstate"
+    region  = "eu-north-1"
+    profile = "ynov"
   }
 }
 
 provider "aws" {
   region  = var.region
-  profile = var.profile
+  profile = "ynov"
   # default_tags {
   #   tags = merge(local.common_tags)
   # }

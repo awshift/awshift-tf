@@ -1,10 +1,10 @@
 module "master_instances" {
   source = "../modules/compute"
-  # for_each =
+  count  = 2
 
   node_type = "controller"
 
-  instance_name = "${var.name_prefix}-master-node"
+  instance_name = "${var.name_prefix}-master-node-${count.index + 1}"
   key_name      = var.key_name
 
   vpc_security_group_ids = [module.master_sg.security_group_id]
@@ -24,7 +24,7 @@ module "master_sg" {
       from_port   = 1936
       ip_protocol = "tcp"
 
-      source = "" # Need source
+      source = "0.0.0.0/0"
     },
     { # 
       description = "Host level services, including the node exporter on ports 9100-9101 and the Cluster Version Operator on port 9099."
@@ -32,7 +32,7 @@ module "master_sg" {
       to_port     = 9999
       ip_protocol = "tcp"
 
-      source = "" # Need source
+      source = "0.0.0.0/0"
     },
     {
       description = "The default ports that Kubernetes reserves"
@@ -40,21 +40,20 @@ module "master_sg" {
       to_port     = 10259
       ip_protocol = "tcp"
 
-      source = "" # Need source
+      source = "0.0.0.0/0"
     },
     {
       description = "openshift-sdn"
       from_port   = 10256
       ip_protocol = "tcp"
 
-      source = "" # Need source
+      source = "0.0.0.0/0"
   }]
 
-
-  egress_rules = {
-    description = ""
-    destination = "-1"
-    ip_protocol = "tcp"
-    from_port   = -1
-  }
+  # egress_rules = [{
+  #   description = ""
+  #   ip_protocol = "-1"
+  #   from_port   = 0
+  #   destination = "0.0.0.0/0"
+  # }]
 }
