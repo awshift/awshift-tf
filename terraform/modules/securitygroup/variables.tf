@@ -1,4 +1,4 @@
-variable "name_suffix" {
+variable "name_prefix" {
   description = "Name suffix for all of security groups resources"
   type        = string
 }
@@ -14,14 +14,15 @@ variable "vpc_id" {
 }
 
 variable "ingress_rules" {
-  description = "Ingress for your current security group"
-  type = object({
-    description = optional(string)
-    ip_protocol = optional(string, "tcp")
-    to_port     = number
-    from_port   = number
-    source      = string
-  })
+  description = "List of ingress rules for your current security group"
+  type = list(object({
+    description    = optional(string)
+    ip_protocol    = optional(string, "tcp")
+    to_port        = optional(number, null)
+    from_port      = number
+    source         = optional(string, "")
+    self_reference = optional(bool, false)
+  }))
 }
 
 variable "egress_rules" {
