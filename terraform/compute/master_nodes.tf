@@ -47,6 +47,7 @@ module "master_sg" {
       from_port   = 2739
       to_port     = 2380
       ip_protocol = "tcp"
+      self_reference = true
 
       source = "0.0.0.0/0"
     },
