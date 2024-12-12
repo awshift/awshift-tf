@@ -43,17 +43,18 @@ module "master_sg" {
       source = "0.0.0.0/0"
     },
     {
+      description = "Control Plane to Control Plane"
+      from_port   = 2739
+      to_port     = 2380
+      ip_protocol = "tcp"
+
+      source = "0.0.0.0/0"
+    },
+    {
       description = "openshift-sdn"
       from_port   = 10256
       ip_protocol = "tcp"
 
       source = "0.0.0.0/0"
   }]
-
-  # egress_rules = [{
-  #   description = ""
-  #   ip_protocol = "-1"
-  #   from_port   = 0
-  #   destination = "0.0.0.0/0"
-  # }]
 }
