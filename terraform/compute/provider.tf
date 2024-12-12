@@ -9,14 +9,9 @@ terraform {
     bucket  = "awshift-backend"
     key     = "state/compute.tfstate"
     region  = "eu-north-1"
-    profile = "ynov"
   }
 }
 
 provider "aws" {
   region  = var.region
-  profile = "ynov"
-  # default_tags {
-  #   tags = merge(local.common_tags)
-  # }
 }

@@ -26,7 +26,7 @@ module "master_sg" {
 
       source = "0.0.0.0/0"
     },
-    { # 
+    {
       description = "Host level services, including the node exporter on ports 9100-9101 and the Cluster Version Operator on port 9099."
       from_port   = 9000
       to_port     = 9999
@@ -44,12 +44,10 @@ module "master_sg" {
     },
     {
       description = "Control Plane to Control Plane"
-      from_port   = 2739
+      from_port   = 2379
       to_port     = 2380
       ip_protocol = "tcp"
       self_reference = true
-
-      source = "0.0.0.0/0"
     },
     {
       description = "openshift-sdn"

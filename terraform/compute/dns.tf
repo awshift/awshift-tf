@@ -1,9 +1,13 @@
+data "aws_route53_zone" "main" {
+  name  = "tycm2-infra.fr"
+}
+
 module "acm" {
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 5.0"
 
   domain_name  = "tycm2-infra.fr"
-  zone_id      = "Z2ES7B9AZ6SHAE"
+  zone_id      = data.aws_route53_zone.main.zone_id
 
   validation_method = "DNS"
 
@@ -25,5 +29,5 @@ resource "aws_route53_record" "awshift" {
   type    = "CNAME"
   ttl     = 300
 
-  records = [""]
+  records = [""] # Load Balancer url to add
 }

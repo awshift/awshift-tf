@@ -2,7 +2,7 @@ module "worker_instances" {
   source = "../modules/compute"
   count  = 3
 
-  node_type = "worker"
+  node_type = "compute"
 
   instance_name = "${var.name_prefix}-worker-node-${count.index + 1}"
   key_name      = var.key_name
