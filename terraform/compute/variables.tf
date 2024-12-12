@@ -12,3 +12,17 @@ variable "profile" {
 
   default = "default"
 }
+
+variable "name_prefix" {
+  description = "Name prefix for all ressources"
+  type        = string
+
+  default = "awshift"
+}
+
+variable "key_name" {
+  description = "Default keypair for all instances"
+  type        = string
+
+  default = "awshift-keypair"
+}
