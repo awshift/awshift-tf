@@ -9,9 +9,12 @@ terraform {
     bucket  = "awshift-backend"
     key     = "state/compute.tfstate"
     region  = "eu-north-1"
+    profile = "ynov"
   }
 }
 
 provider "aws" {
   region  = var.region
+  profile = "ynov"
+
 }
