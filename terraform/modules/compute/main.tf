@@ -6,8 +6,12 @@ resource "aws_instance" "main" {
 
 
 
+
   # tags                   = var.common_tags
   vpc_security_group_ids = var.vpc_security_group_ids
 
+  tags = {
+    "Name" = var.instance_name
+  }
 
 }
