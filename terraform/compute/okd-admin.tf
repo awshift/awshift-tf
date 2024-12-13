@@ -18,7 +18,7 @@ module "okd-admin_sg" {
 
   description = "okd sg"
   vpc_id      = data.aws_vpc.main.id
-  name_prefix = "${var.name_prefix}-worker"
+  name_prefix = "${var.name_prefix}-okdadmin"
 
   ingress_rules = [
     {
