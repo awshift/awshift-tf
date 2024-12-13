@@ -1,6 +1,6 @@
 module "okd-admin_instances" {
   source = "../modules/compute"
-  count  = 3
+  count  = 1
 
   node_type = "okd-admin"
 
