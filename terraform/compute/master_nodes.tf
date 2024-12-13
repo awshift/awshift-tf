@@ -15,7 +15,7 @@ module "master_sg" {
   source = "../modules/securitygroup"
 
   description = "Main security group for all of master nodes"
-  vpc_id      = ""
+  vpc_id      = data.aws_vpc.main.id
   name_prefix = "${var.name_prefix}-master"
 
   ingress_rules = [

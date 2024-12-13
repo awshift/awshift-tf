@@ -17,7 +17,7 @@ module "okd-admin_sg" {
   source = "../modules/securitygroup"
 
   description = "okd sg"
-  vpc_id      = ""
+  vpc_id      = data.aws_vpc.main.id
   name_prefix = "${var.name_prefix}-worker"
 
   ingress_rules = [
