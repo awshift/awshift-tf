@@ -22,8 +22,9 @@ mkdir -p /opt/okd/install_dir
 
 # Get openshift-install and oc
 # Openshift Install
-curl https://github.com/okd-project/okd/releases/download/4.14.0-0.okd-2024-01-26-175629/openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz && tar -xvf openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
-mv ./openshift-install /opt/okd/
+wget https://github.com/okd-project/okd/releases/download/4.14.0-0.okd-2024-01-26-175629/openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz && tar -xvf openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
+cp openshift-install /usr/bin/
+mv openshift-install /opt/okd/
 
 
 # Openshift Client
