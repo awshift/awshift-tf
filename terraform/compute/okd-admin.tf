@@ -11,6 +11,8 @@ module "okd-admin_instances" {
   subnet_id              = data.aws_subnet.public.id
 
   user_data = "./scripts/user_data.sh"
+
+  ami       = "ami-0c8bf1ee5b07dcb22"
 }
 
 module "okd-admin_sg" {
