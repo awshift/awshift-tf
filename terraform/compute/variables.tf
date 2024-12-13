@@ -41,7 +41,6 @@ data "aws_subnet" "public" {
   }
 }
 
-
 data "aws_vpc" "main" {
   filter {
     name   = "tag:Name"

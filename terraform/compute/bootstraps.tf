@@ -15,7 +15,7 @@ module "bootstrap_sg" {
   source = "../modules/securitygroup"
 
   description = "Main security group for bootstrap node"
-  vpc_id      = ""
+  vpc_id      = data.aws_vpc.main.id
   name_prefix = "${var.name_prefix}-bootstrap"
 
   ingress_rules = [

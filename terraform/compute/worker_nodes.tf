@@ -15,7 +15,7 @@ module "worker_sg" {
   source = "../modules/securitygroup"
 
   description = "Main security group for all worker nodes"
-  vpc_id      = ""
+  vpc_id      = data.aws_vpc.main.id
   name_prefix = "${var.name_prefix}-worker"
 
   ingress_rules = [
