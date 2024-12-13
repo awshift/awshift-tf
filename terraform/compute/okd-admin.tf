@@ -8,7 +8,7 @@ module "okd-admin_instances" {
   key_name      = var.key_name
 
   vpc_security_group_ids = [module.okd-admin_sg.security_group_id]
-  subnet_id              = ""
+  subnet_id              = data.aws_subnet.public.id
 
   user_data = "./scripts/user_data.sh"
 }

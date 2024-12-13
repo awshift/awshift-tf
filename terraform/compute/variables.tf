@@ -26,3 +26,17 @@ variable "key_name" {
 
   default = "awshift-keypair"
 }
+
+data "aws_subnet" "private" {
+  filter {
+    name   = "tag:awshift:public"
+    values = ["false"]
+  }
+}
+
+data "aws_subnet" "public" {
+  filter {
+    name   = "tag:awshift:public"
+    values = ["true"]
+  }
+}
