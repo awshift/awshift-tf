@@ -10,6 +10,8 @@ systemctl stop firewalld
 systemctl disable firewalld
 
 # Install the necessary packages
+yum install -y tree wget curl git unzip httpd 
+
 
 # Create the necessary directories
 mkdir -p /opt/okd/
@@ -32,6 +34,10 @@ mv kubectl /usr/local/bin/
 oc version || echo "oc ain't working"
 kubectl version || echo "kubectl ain't working"
 
+# Set the Web server
+echo "you're on our Management machine" > /var/www/html/index.html
+sudo systemctl start httpd
+sudo systemctl enable httpd
 
 
 # Tear down 
@@ -39,5 +45,4 @@ rm -rf openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
 rm -rf openshift-client-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
 
 
-## Step 2
 
