@@ -3,7 +3,7 @@ resource "aws_instance" "main" {
   instance_type = local.instance_type
   key_name      = var.key_name
   subnet_id     = var.subnet_id
-
+  user_data     = var.user_data
 
 
 

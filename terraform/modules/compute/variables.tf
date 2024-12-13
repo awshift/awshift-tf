@@ -16,12 +16,15 @@ locals {
   boostrap_instance_type   = "t3.xlarge" # CPU : 4 | RAM : 16GB
   controller_instance_type = "m5.large"  # CPU : 4 | RAM : 16GB
   compute_instance_type    = "t3.large"  # CPU : 2 | RAM : 8GB
+  okd-admin_instance_type    = "t3.large"  # CPU : 2 | RAM : 8GB
+
 
   # For node type condition
   compute       = var.node_type == "compute" ? local.compute_instance_type : ""
   controller    = var.node_type == "controller" ? local.controller_instance_type : ""
   bootstrap     = var.node_type == "bootstrap" ? local.boostrap_instance_type : ""
-  instance_type = coalesce(local.compute, local.controller, local.bootstrap)
+  okd-admin     = var.node_type == "okd-admin" ? local.okd-admin_instance_type : ""
+  instance_type = coalesce(local.compute, local.controller, local.bootstrap, local.okd-admin)
 
 }
 
@@ -45,3 +48,8 @@ variable "instance_name" {
   type        = string
 }
 
+variable "user_data" {
+  description = "User data"
+  type        = string
+  default = ""
+}
