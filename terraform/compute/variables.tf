@@ -40,3 +40,11 @@ data "aws_subnet" "public" {
     values = ["true"]
   }
 }
+
+
+data "aws_vpc" "main" {
+  filter {
+    name   = "tag:Name"
+    values = ["awshift-vpc"]
+  }
+}
