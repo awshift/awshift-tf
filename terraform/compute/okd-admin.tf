@@ -1,40 +1,27 @@
-module "okd-admin_instances" {
-  source = "../modules/compute"
-  count  = 1
-
-  node_type = "okd-admin"
-  ami       = "ami-0c8bf1ee5b07dcb22"
-
-  instance_name = "${var.name_prefix}-okd-admin-${count.index + 1}"
-  key_name      = var.key_name
-
-  vpc_security_group_ids = [module.okd-admin_sg.security_group_id]
+resource "aws_instance" "okd_admin" {
+  ami                    = "ami-0c8bf1ee5b07dcb22"
+  instance_type          = "t3.large"
+  key_name               = var.key_name
   subnet_id              = data.aws_subnet.public.id
+  vpc_security_group_ids = [module.okd-admin_sg.security_group_id]
+  user_data              = file("./scripts/user_data.sh")
 
-  user_data = file("./scripts/user_data.sh")
+  provisioner "file" {
+    source      = "./file/awshift-keypair.pem"
+    destination = "/"
+    # connection {
+    #   type        = "ssh"
+    #   host        = self.public_ip
+    #   user        = "ec2-user"
+    #   private_key = file("./scripts/user_data.sh")
+    # }
+  }
 
-  file = [{
-    source           = "./file/awshift-keypair.pem"
-    destination      = "/root/.ssh/awshift.pem"
-    user             = "ec2-user"
-    private_key_path = file("./file/awshift-keypair.pem")
-    },
-    {
-      source           = "./file/prepare.sh"
-      destination      = "/root/"
-      user             = "ec2-user"
-      private_key_path = file("./file/awshift-keypair.pem")
-
-    },
-    {
-      source           = "./file/install-config.yaml"
-      destination      = "/root/"
-      user             = "ec2-user"
-      private_key_path = file("./file/awshift-keypair.pem")
-
-  }]
-
+  tags = {
+    "Name" = "${var.name_prefix}-okd-admin"
+  }
 }
+
 
 module "okd-admin_sg" {
   source = "../modules/securitygroup"
