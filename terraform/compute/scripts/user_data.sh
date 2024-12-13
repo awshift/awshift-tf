@@ -22,14 +22,15 @@ mkdir -p /opt/okd/install_dir
 
 # Get openshift-install and oc
 # Openshift Install
-curl https://github.com/okd-project/okd/releases/download/4.14.0-0.okd-2024-01-26-175629/openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz && tar -xvf openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
+wget https://github.com/okd-project/okd/releases/download/4.14.0-0.okd-2024-01-26-175629/openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz && tar -xvf openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
+cp openshift-install /usr/bin/
 mv openshift-install /opt/okd/
 
 
 # Openshift Client
 wget https://github.com/okd-project/okd/releases/download/4.14.0-0.okd-2024-01-26-175629/openshift-client-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz && tar -xvf openshift-client-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
-mv oc /usr/local/bin/
-mv kubectl /usr/local/bin/
+mv oc /usr/bin/
+mv kubectl /usr/bin/
 
 oc version || echo "oc ain't working"
 kubectl version || echo "kubectl ain't working"
@@ -44,5 +45,9 @@ sudo systemctl enable httpd
 rm -rf openshift-install-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
 rm -rf openshift-client-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
 
+# Copy SSH key
+sudo cp /home/ec2-user/.ssh/awshift.pem /root/.ssh/awshift.pem
+sudo chmod 400 /root/.ssh/awshift.pem
+sudo cat /home/ec2-user/.ssh/authorized_keys > /root/.ssh/awshift.pub
 
 

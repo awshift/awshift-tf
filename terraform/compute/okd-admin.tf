@@ -1,19 +1,49 @@
-module "okd-admin_instances" {
-  source = "../modules/compute"
-  count  = 1
-
-  node_type = "okd-admin"
-
-  instance_name = "${var.name_prefix}-okd-admin-${count.index + 1}"
-  key_name      = var.key_name
-
-  vpc_security_group_ids = [module.okd-admin_sg.security_group_id]
+resource "aws_instance" "okd_admin" {
+  ami                    = "ami-0c8bf1ee5b07dcb22"
+  instance_type          = "t3.large"
+  key_name               = var.key_name
   subnet_id              = data.aws_subnet.public.id
+  vpc_security_group_ids = [module.okd-admin_sg.security_group_id]
+  user_data              = file("./scripts/user_data.sh")
 
-  user_data = file("./scripts/user_data.sh")
+  provisioner "file" {
+    source      = "./file/awshift-keypair.pem"
+    destination = "/home/ec2-user/awshift.pem"
+    connection {
+      type        = "ssh"
+      host        = self.public_ip
+      user        = "ec2-user"
+      private_key = file("./file/awshift-keypair.pem")
+    }
+  }
 
-  ami = "ami-0c8bf1ee5b07dcb22"
+  provisioner "file" {
+    source      = "./file/install-config.yaml"
+    destination = "/home/ec2-user/install-config.yaml"
+    connection {
+      type        = "ssh"
+      host        = self.public_ip
+      user        = "ec2-user"
+      private_key = file("./file/awshift-keypair.pem")
+    }
+  }
+
+  provisioner "file" {
+    source      = "./file/prepare.sh"
+    destination = "/home/ec2-user/prepare.sh"
+    connection {
+      type        = "ssh"
+      host        = self.public_ip
+      user        = "ec2-user"
+      private_key = file("./file/awshift-keypair.pem")
+    }
+  }
+
+  tags = {
+    "Name" = "${var.name_prefix}-okd-admin"
+  }
 }
+
 
 module "okd-admin_sg" {
   source = "../modules/securitygroup"
@@ -64,6 +94,13 @@ module "okd-admin_sg" {
     {
       description = "Allows SSH"
       from_port   = 22
+      ip_protocol = "tcp"
+
+      source = "0.0.0.0/0"
+    },
+    {
+      description = "Allows HTTP"
+      from_port   = 80
       ip_protocol = "tcp"
 
       source = "0.0.0.0/0"
