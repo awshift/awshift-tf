@@ -42,6 +42,12 @@ fi
 
 
 # Step2
+sudo mv /home/ec2-user/install-config.yaml /root/
+sudo mv /home/ec2-user/awshift.pem /root/.ssh/
+sudo chmod 600 /root/.ssh/awshift.pem && sudo chown root:root /root/.ssh/awshift.pem 
+sudo cp /home/ec2-user/prepare.sh /root/
+
+
 # Set an agent
 sudo eval "$(ssh-agent -s)"
 sudo ssh-add /root/.ssh/awshift.pem
