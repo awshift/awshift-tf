@@ -14,16 +14,24 @@ module "okd-admin_instances" {
   user_data = file("./scripts/user_data.sh")
 
   file = [{
-    source      = "./file/awshift-keypair.pem"
-    destination = "/root/.ssh/awshift.pem"
+    source           = "./file/awshift-keypair.pem"
+    destination      = "/root/.ssh/awshift.pem"
+    user             = "ec2-user"
+    private_key_path = file("./file/awshift-keypair.pem")
     },
     {
-      source      = "./file/prepare.sh"
-      destination = "/root/"
+      source           = "./file/prepare.sh"
+      destination      = "/root/"
+      user             = "ec2-user"
+      private_key_path = file("./file/awshift-keypair.pem")
+
     },
     {
-      source      = "./file/install-config.yaml"
-      destination = "/root/"
+      source           = "./file/install-config.yaml"
+      destination      = "/root/"
+      user             = "ec2-user"
+      private_key_path = file("./file/awshift-keypair.pem")
+
   }]
 
 }
