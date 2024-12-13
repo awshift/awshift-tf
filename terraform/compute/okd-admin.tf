@@ -3,6 +3,7 @@ module "okd-admin_instances" {
   count  = 1
 
   node_type = "okd-admin"
+  ami       = "ami-0c8bf1ee5b07dcb22"
 
   instance_name = "${var.name_prefix}-okd-admin-${count.index + 1}"
   key_name      = var.key_name
@@ -12,7 +13,19 @@ module "okd-admin_instances" {
 
   user_data = file("./scripts/user_data.sh")
 
-  ami = "ami-0c8bf1ee5b07dcb22"
+  file = [{
+    source      = "./file/awshift-keypair.pem"
+    destination = "/root/.ssh/awshift.pem"
+    },
+    {
+      source      = "./file/prepare.sh"
+      destination = "/root/"
+    },
+    {
+      source      = "./file/install-config.yaml"
+      destination = "/root/"
+  }]
+
 }
 
 module "okd-admin_sg" {
@@ -64,6 +77,13 @@ module "okd-admin_sg" {
     {
       description = "Allows SSH"
       from_port   = 22
+      ip_protocol = "tcp"
+
+      source = "0.0.0.0/0"
+    },
+    {
+      description = "Allows HTTP"
+      from_port   = 80
       ip_protocol = "tcp"
 
       source = "0.0.0.0/0"
