@@ -16,7 +16,7 @@ locals {
   boostrap_instance_type   = "t3.xlarge" # CPU : 4 | RAM : 16GB
   controller_instance_type = "m5.large"  # CPU : 4 | RAM : 16GB
   compute_instance_type    = "t3.large"  # CPU : 2 | RAM : 8GB
-  okd-admin_instance_type    = "t3.large"  # CPU : 2 | RAM : 8GB
+  okd-admin_instance_type  = "t3.large"  # CPU : 2 | RAM : 8GB
 
 
   # For node type condition
@@ -51,5 +51,18 @@ variable "instance_name" {
 variable "user_data" {
   description = "User data"
   type        = string
-  default = ""
+  default     = ""
+}
+
+variable "file" {
+  description = ""
+  type = list(object({
+    source      = string
+    destination = string
+  }))
+
+  default = [{
+    source      = ""
+    destination = ""
+  }]
 }
