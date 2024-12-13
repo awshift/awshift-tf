@@ -8,7 +8,7 @@ module "bootstrap_instance" {
   key_name      = var.key_name
 
   vpc_security_group_ids = [module.bootstrap_sg.security_group_id]
-  subnet_id              = ""
+  subnet_id              = data.aws_subnet.public.id
 }
 
 module "bootstrap_sg" {
@@ -48,5 +48,5 @@ module "bootstrap_sg" {
       ip_protocol = "tcp"
 
       source = "0.0.0.0/0"
-    }]
+  }]
 }

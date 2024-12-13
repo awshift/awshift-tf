@@ -8,7 +8,7 @@ module "master_instances" {
   key_name      = var.key_name
 
   vpc_security_group_ids = [module.master_sg.security_group_id]
-  subnet_id              = ""
+  subnet_id              = data.aws_subnet.public.id
 }
 
 module "master_sg" {
@@ -43,10 +43,10 @@ module "master_sg" {
       source = "0.0.0.0/0"
     },
     {
-      description = "Control Plane to Control Plane"
-      from_port   = 2379
-      to_port     = 2380
-      ip_protocol = "tcp"
+      description    = "Control Plane to Control Plane"
+      from_port      = 2379
+      to_port        = 2380
+      ip_protocol    = "tcp"
       self_reference = true
     },
     {
