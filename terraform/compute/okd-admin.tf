@@ -10,9 +10,9 @@ module "okd-admin_instances" {
   vpc_security_group_ids = [module.okd-admin_sg.security_group_id]
   subnet_id              = data.aws_subnet.public.id
 
-  user_data = "./scripts/user_data.sh"
+  user_data = file("./scripts/user_data.sh")
 
-  ami       = "ami-0c8bf1ee5b07dcb22"
+  ami = "ami-0c8bf1ee5b07dcb22"
 }
 
 module "okd-admin_sg" {
@@ -57,6 +57,13 @@ module "okd-admin_sg" {
       description = "Allow workers to communicate with the Kubernetes API server"
       from_port   = 6443
       to_port     = 6443
+      ip_protocol = "tcp"
+
+      source = "0.0.0.0/0"
+    },
+    {
+      description = "Allows SSH"
+      from_port   = 22
       ip_protocol = "tcp"
 
       source = "0.0.0.0/0"
