@@ -49,3 +49,5 @@ rm -rf openshift-client-linux-4.14.0-0.okd-2024-01-26-175629.tar.gz
 cp /home/ec2-user/.ssh/awshift.pem /root/.ssh/awshift.pem
 chmod 400 /root/.ssh/awshift.pem
 cat /home/ec2-user/.ssh/authorized_keys > /root/.ssh/awshift.pub
+
+
