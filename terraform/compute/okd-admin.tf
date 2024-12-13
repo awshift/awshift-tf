@@ -9,6 +9,8 @@ module "okd-admin_instances" {
 
   vpc_security_group_ids = [module.okd-admin_sg.security_group_id]
   subnet_id              = ""
+
+  user_data = "./scripts/user_data.sh"
 }
 
 module "okd-admin_sg" {
