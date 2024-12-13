@@ -15,7 +15,7 @@ resource "aws_subnet" "public" {
 
   tags = {
     Name             = "${var.name_prefix}-public_subnet-${count.index + 1}"
-    "awshift:public" = true
+    "awshift:public" = "true"
 
   }
 }
@@ -27,7 +27,7 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name             = "${var.name_prefix}-private_subnet-${count.index + 1}"
-    "awshift:public" = false
+    "awshift:public" = "false"
   }
 }
 
