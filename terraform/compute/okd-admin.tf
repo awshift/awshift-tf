@@ -8,7 +8,7 @@ resource "aws_instance" "okd_admin" {
 
   provisioner "file" {
     source      = "./file/awshift-keypair.pem"
-    destination = "/awshift.pem"
+    destination = "/home/ec2-user/awshift.pem"
     connection {
       type        = "ssh"
       host        = self.public_ip
@@ -19,7 +19,7 @@ resource "aws_instance" "okd_admin" {
 
   provisioner "file" {
     source      = "./file/install-config.yaml"
-    destination = "/install-config.yaml"
+    destination = "/home/ec2-user/install-config.yaml"
     connection {
       type        = "ssh"
       host        = self.public_ip
@@ -30,7 +30,7 @@ resource "aws_instance" "okd_admin" {
 
   provisioner "file" {
     source      = "./file/prepare.sh"
-    destination = "/prepare.sh"
+    destination = "/home/ec2-user/prepare.sh"
     connection {
       type        = "ssh"
       host        = self.public_ip
