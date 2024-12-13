@@ -8,13 +8,35 @@ resource "aws_instance" "okd_admin" {
 
   provisioner "file" {
     source      = "./file/awshift-keypair.pem"
-    destination = "/"
-    # connection {
-    #   type        = "ssh"
-    #   host        = self.public_ip
-    #   user        = "ec2-user"
-    #   private_key = file("./scripts/user_data.sh")
-    # }
+    destination = "/awshift.pem"
+    connection {
+      type        = "ssh"
+      host        = self.public_ip
+      user        = "ec2-user"
+      private_key = file("./file/awshift-keypair.pem")
+    }
+  }
+
+  provisioner "file" {
+    source      = "./file/install-config.yaml"
+    destination = "/install-config.yaml"
+    connection {
+      type        = "ssh"
+      host        = self.public_ip
+      user        = "ec2-user"
+      private_key = file("./file/awshift-keypair.pem")
+    }
+  }
+
+  provisioner "file" {
+    source      = "./file/prepare.sh"
+    destination = "/prepare.sh"
+    connection {
+      type        = "ssh"
+      host        = self.public_ip
+      user        = "ec2-user"
+      private_key = file("./file/awshift-keypair.pem")
+    }
   }
 
   tags = {
