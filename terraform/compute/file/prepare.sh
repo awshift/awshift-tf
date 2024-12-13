@@ -53,7 +53,7 @@ ls -al /opt/okd/install_dir | grep install-config.yaml || cp /root/install-confi
 ls -al /opt/okd/install_dir | grep install-config.yaml && cp /opt/okd/install_dir/install-config.yaml /opt/okd/install_config_bak && ls -al /opt/okd/install_config_bak
 
 # Generate manifests
-/opt/okd/openshift-install create manifests --dir <installation_directory>
+/opt/okd/openshift-install create manifests --dir /opt/okd/install_dir
 
 # Make master unshcedulable
 # Get the key:
@@ -74,6 +74,17 @@ ls -al /opt/okd/manifests_bak && sudo cp -r /opt/okd/install_dir/* /opt/okd/mani
 
 # Place the ignition files in /var/www/html
 cp /opt/okd/install_dir/* /var/www/html/
+
+# Generate CheckSums
+cd /var/www/html/ 
+# for each file .ign make a checksum [bootstrap,master,worker]
+for file in bootstrap.ign master.ign worker.ign; do
+    if [ -f "$file" ]; then
+        sha512sum "$file" > "$file.sha512"
+    else
+        echo "$file not found!"
+    fi
+done
 
 # rm index.html /var/www/html/index.html
 rm -rf /var/www/html/index.html
