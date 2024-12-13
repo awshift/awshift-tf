@@ -6,14 +6,12 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "awshift-backend"
-    key     = "state/network.tfstate"
-    region  = "eu-north-1"
-    profile = "ynov"
+    bucket = "awshift-backend"
+    key    = "state/network.tfstate"
+    region = "eu-north-1"
   }
 }
 
 provider "aws" {
-  region  = var.region
-  profile = "ynov"
+  region = var.region
 }
