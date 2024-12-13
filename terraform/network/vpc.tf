@@ -14,8 +14,8 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name                    = "${var.name_prefix}-public_subnet-${count.index + 1}"
-    "awshift:public_subnet" = true
+    Name             = "${var.name_prefix}-public_subnet-${count.index + 1}"
+    "awshift:public" = true
 
   }
 }
@@ -26,8 +26,8 @@ resource "aws_subnet" "private" {
   cidr_block = cidrsubnet(var.vpc_cidr_block, local.total_subnets, count.index + var.number_public_subnet)
 
   tags = {
-    Name                    = "${var.name_prefix}-private_subnet-${count.index + 1}"
-    "awshift:public_subnet" = false
+    Name             = "${var.name_prefix}-private_subnet-${count.index + 1}"
+    "awshift:public" = false
   }
 }
 
