@@ -11,6 +11,14 @@ resource "aws_instance" "main" {
   provisioner "file" {
     source      = each.value.source
     destination = each.value.destination
+
+    connection {
+      type = "ssh"
+      host = self.public_ip
+
+      user        = each.value.user
+      private_key = each.value.private_key_path
+    }
   }
 
   # tags                   = var.common_tags

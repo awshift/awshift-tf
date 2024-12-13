@@ -57,12 +57,17 @@ variable "user_data" {
 variable "file" {
   description = ""
   type = list(object({
-    source      = string
-    destination = string
+    source           = string
+    destination      = string
+    user             = string
+    private_key_path = string
+
   }))
 
   default = [{
-    source      = ""
-    destination = ""
+    source           = ""
+    destination      = ""
+    user             = ""
+    private_key_path = ""
   }]
 }
