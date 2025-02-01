@@ -1,8 +1,7 @@
 variable "region" {
   description = "Default AWS region for the project"
   type        = string
-
-  # For this project, we need to use Stockholm region's
+  # For this project, we need to use Stockholm region
   default = "eu-north-1"
 }
 
@@ -25,25 +24,4 @@ variable "key_name" {
   type        = string
 
   default = "awshift-keypair"
-}
-
-data "aws_subnet" "private" {
-  filter {
-    name   = "tag:awshift:public"
-    values = ["false"]
-  }
-}
-
-data "aws_subnet" "public" {
-  filter {
-    name   = "tag:awshift:public"
-    values = ["true"]
-  }
-}
-
-data "aws_vpc" "main" {
-  filter {
-    name   = "tag:Name"
-    values = ["awshift-vpc"]
-  }
 }
