@@ -8,7 +8,7 @@ module "worker_instances" {
   key_name      = var.key_name
 
   vpc_security_group_ids = [module.worker_sg.security_group_id]
-  subnet_id              = module.vpc.public_subnet[0].id
+  subnet_id              = module.vpc.private_subnet[0].id
 }
 
 module "worker_sg" {
