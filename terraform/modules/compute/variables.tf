@@ -11,7 +11,7 @@ variable "node_type" {
 }
 
 locals {
-  fedoracoreOS = "ami-011931490025934ea" # FedoraCoreOS v41
+  ubuntuOS = "ami-09a9858973b288bdd" # Ubuntu 24.04
 
   boostrap_instance_type   = "t3.xlarge" # CPU : 4 | RAM : 16GB
   controller_instance_type = "m5.large"  # CPU : 4 | RAM : 16GB
