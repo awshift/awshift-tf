@@ -8,7 +8,7 @@ module "master_instances" {
   key_name      = var.key_name
 
   vpc_security_group_ids = [module.master_sg.security_group_id]
-  subnet_id              = module.vpc.private_subnet[0].id
+  subnet_id              = module.vpc.public_subnet[0].id
 }
 
 module "master_sg" {
@@ -46,7 +46,7 @@ module "master_sg" {
       from_port   = 22
       to_port     = 22
       ip_protocol = "tcp"
-      source      = module.bastion_sg.security_group_id
+      source      = "0.0.0.0/0"
     },
   ]
 }
