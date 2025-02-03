@@ -46,7 +46,7 @@ module "worker_sg" {
       from_port   = 22
       to_port     = 22
       ip_protocol = "tcp"
-      source      = "0.0.0.0/0"
+      source      = module.bastion_sg.security_group_id
     }
   ]
 }
