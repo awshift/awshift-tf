@@ -1,0 +1,205 @@
+---
+
+# Install RKE2 on First Master
+
+- name: Download rke2
+  get_url:
+    url: "{{ rke2_download_url }}"
+    dest: /tmp/rke2.sh
+    mode: 0755
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: Install rke2
+  shell: sudo bash /tmp/rke2.sh
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+
+- name: Start and Enable rke2
+  service:
+    name: rke2-server
+    state: started
+    enabled: yes
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: wait for rke2 Master to start
+  shell: sleep 30
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: get node token
+  shell: sudo cat /var/lib/rancher/rke2/server/node-token
+  register: node_token
+  when: inventory_hostname in groups['master'][0]
+
+- set_fact:
+    node_token: "{{ node_token.stdout }}"
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+
+- name: get kubeconfig
+  shell: sudo cat /etc/rancher/rke2/rke2.yaml
+  register: kubeconfig
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: ensure the node token and retrieve it
+  debug:
+    msg: "node token is {{ node_token }}"
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: Create config directory
+  file:
+    path: /etc/rancher/rke2/
+    state: directory
+    mode: 0755
+  when: inventory_hostname in groups['master'][0]
+
+
+- name: Create config file
+  file:
+    path: /etc/rancher/rke2/config.yaml
+    state: touch
+    mode: 0654
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: add right for Kubeconfig into config file
+  blockinfile:
+    path: /etc/rancher/rke2/config.yaml
+    block: |
+      write-kubeconfig-mode: "0644"
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+
+# - name: export var for kubeconfig on First Master
+#   shell: |
+#     sudo mkdir -p ~/.kube
+#     sudo ln -s /etc/rancher/rke2/rke2.yaml ~/.kube/config
+#     sudo echo KUBECONFIG=/etc/rancher/rke2/rke2.yaml > etc/environment
+#   run_once: true
+#   when: inventory_hostname in groups['master'][0]
+
+- name: Start and Enable rke2
+  service:
+    name: rke2-server
+    state: started
+    enabled: yes
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+
+- name: wait for rke2 to start
+  wait_for:
+    port: 6443
+    host: "{{ first_master }}"
+    timeout: 120
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: Install Kubectl on First Master
+  shell: |
+    sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    
+    sudo mkdir -p ~/.kube
+    sudo ln -s /etc/rancher/rke2/rke2.yaml ~/.kube/config
+    
+    sleep 10
+    
+    sudo kubectl get nodes
+    sudo kubectl get pods --all-namespaces
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- name: Install Helm to First Master
+  shell: |
+    curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+    helm repo add stable https://charts.helm.sh/stable
+    helm repo update
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+# - name: Install Cert-Manager to First Master
+#   shell: |
+#     kubectl create namespace cert-manager
+#     helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.5.4 --set installCRDs=true
+#     sleep 5
+#     kubectl -n cert-manager rollout status deploy/cert-manager
+#     kubectl -n cert-manager rollout status deploy/cert-manager-webhook
+#   run_once: true
+#   when: inventory_hostname in groups['master'][0]
+
+
+# Install RKE2 on other Masters and Set VIP
+
+
+# Install RKE2 on Workers
+
+
+- name: Wait containers starts on Masters
+  shell: sleep 30
+  when: inventory_hostname in groups['master']
+
+- name: Download rke2 for Workers
+  get_url:
+    url: "{{ rke2_download_url }}"
+    dest: /tmp/rke2.sh
+    mode: 0755
+  when: inventory_hostname in groups['worker'] 
+
+
+- name: Install rke2 on Workers
+  shell: sudo bash /tmp/rke2.sh INSTALL_RKE2_TYPE="agent"
+  when: inventory_hostname in groups['worker']
+
+
+- name: create config directory
+  file:
+    path: /etc/rancher/rke2/
+    state: directory
+    mode: 0755
+  when: inventory_hostname in groups['worker']
+
+
+- name: Create config file
+  file:
+    path: /etc/rancher/rke2/config.yaml
+    state: touch
+    mode: 0654
+  when: inventory_hostname in groups['worker']
+
+- name: Add config file
+  blockinfile:
+    path: /etc/rancher/rke2/config.yaml
+    block: |
+      server: https://{{ first_master }}:9345
+      token: {{ node_token }}
+      write-kubeconfig-mode: "0644"
+  when: inventory_hostname in groups['worker']
+
+- name: Start and Enable rke2
+  service:
+    name: rke2-agent
+    state: started
+    enabled: yes
+  when: inventory_hostname in groups['worker']
+
+- name: wait for rke2-agent to Start and register to Master
+  shell: sleep 90
+
+- name: Check the Registration of Workers
+  shell: sudo kubectl get nodes 
+  register: node_status
+  run_once: true
+  when: inventory_hostname in groups['master'][0]
+
+- debug:
+    msg: "{{ node_status.stdout }}"
+  run_once: true
+  when: inventory_hostname in groups['master'][0]

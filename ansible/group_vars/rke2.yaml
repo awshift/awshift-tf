@@ -1,0 +1,7 @@
+#curl -sfL https://get.rke2.io > kscript.sh
+rke2_download_url: https://get.rke2.io
+
+
+first_master: "{{ groups['master'][0] }}"
+other_masters: "{{ groups ['master'] | difference([first_master]) }}"
+workers: "{{ groups ['worker'] | difference([first_master]) }}"

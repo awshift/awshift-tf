@@ -1,0 +1,17 @@
+
+
+# Playbook to install a RKE2 Cluster
+- name: Install RKE2 CLuster 
+  hosts: rke
+  become: true
+  become_user: root
+  gather_facts: true
+
+
+  vars_files:
+    - group_vars/rke2.yaml
+
+  roles:
+    #- install_pkg_std
+    - install_rke2_cluster
+    #- install_rke2_postconfig
