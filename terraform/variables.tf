@@ -25,3 +25,10 @@ variable "key_name" {
 
   default = "awshift-keypair"
 }
+
+variable "cidr_block" {
+  description = "Default value for vpc awshift"
+  type        = string
+
+  default = "10.0.0.0/16"
+}

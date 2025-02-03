@@ -1,5 +1,5 @@
 module "master_instances" {
-  source = "../modules/compute"
+  source = "./modules/compute"
   count  = 2
 
   node_type = "controller"
@@ -8,14 +8,14 @@ module "master_instances" {
   key_name      = var.key_name
 
   vpc_security_group_ids = [module.master_sg.security_group_id]
-  subnet_id              = data.aws_subnet.public.id
+  subnet_id              = module.vpc.public_subnet[0].id
 }
 
 module "master_sg" {
-  source = "../modules/securitygroup"
+  source = "./modules/securitygroup"
 
   description = "Main security group for all of master nodes"
-  vpc_id      = data.aws_vpc.main.id
+  vpc_id      = module.vpc.vpc.id
   name_prefix = "${var.name_prefix}-master"
 
   ingress_rules = [
