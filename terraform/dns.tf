@@ -29,5 +29,5 @@ resource "aws_route53_record" "awshift" {
   type    = "CNAME"
   ttl     = 300
 
-  records = module.master_instances[0].public_ips[0]
+  records = [module.master_instances[0].public_ips]
 }

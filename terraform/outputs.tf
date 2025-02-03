@@ -5,5 +5,5 @@ output "worker" {
   value = module.worker_instances[*].public_ips
 }
 output "bastion" {
-  value = module.bastion_instances[*].public_ips
+  value = module.bastion_instance[*].public_ips
 }
