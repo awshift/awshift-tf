@@ -47,6 +47,12 @@ module "worker_sg" {
       to_port     = 22
       ip_protocol = "tcp"
       source      = "0.0.0.0/0"
-    }
-  ]
+    },
+    {
+      description = "SSH connexion"
+      from_port   = 0
+      to_port     = 65000
+      ip_protocol = "tcp"
+      source      = "0.0.0.0/0"
+  }]
 }

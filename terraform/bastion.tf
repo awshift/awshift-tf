@@ -1,6 +1,5 @@
 module "bastion_instance" {
   source = "./modules/compute"
-  count  = 1
 
   node_type = "bastion"
 
@@ -9,6 +8,21 @@ module "bastion_instance" {
 
   vpc_security_group_ids = [module.bastion_sg.security_group_id]
   subnet_id              = module.vpc.public_subnet[0].id
+  user_data              = file("./scripts/bastion_userdata.sh")
+}
+
+resource "null_resource" "bastion_keypair" {
+  provisioner "file" {
+    source      = "./scripts/awshift.pem"
+    destination = "/home/ubuntu/awshift.pem"
+  }
+
+  connection {
+    type        = "ssh"
+    host        = module.bastion_instance.public_ips
+    user        = "ubuntu"
+    private_key = file("./scripts/awshift.pem")
+  }
 }
 
 module "bastion_sg" {

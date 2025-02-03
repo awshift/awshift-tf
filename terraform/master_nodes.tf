@@ -1,6 +1,6 @@
 module "master_instances" {
   source = "./modules/compute"
-  count  = 2
+  count  = 1
 
   node_type = "controller"
 
@@ -48,5 +48,12 @@ module "master_sg" {
       ip_protocol = "tcp"
       source      = "0.0.0.0/0"
     },
+    {
+      description = "NodePort port range"
+      from_port   = 30000
+      to_port     = 32767
+      ip_protocol = "tcp"
+      source      = "0.0.0.0/0"
+    }
   ]
 }
