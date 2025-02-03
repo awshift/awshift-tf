@@ -42,13 +42,11 @@ module "master_sg" {
       self_reference = true
     },
     {
-      description    = "SSH connexion"
-      from_port      = 22
-      to_port        = 22
-      ip_protocol    = "tcp"
-      self_reference = true
-
-      source = "0.0.0.0/0"
+      description = "SSH connexion"
+      from_port   = 22
+      to_port     = 22
+      ip_protocol = "tcp"
+      source      = "0.0.0.0/0"
     },
   ]
 }

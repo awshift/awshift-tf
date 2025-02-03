@@ -18,7 +18,7 @@ module "worker_sg" {
   vpc_id      = module.vpc.vpc.id
   name_prefix = "${var.name_prefix}-worker"
 
-    ingress_rules = [
+  ingress_rules = [
     {
       description = "Metrics"
       from_port   = 10250
@@ -42,13 +42,11 @@ module "worker_sg" {
       self_reference = true
     },
     {
-      description    = "SSH connexion"
-      from_port      = 22
-      to_port        = 22
-      ip_protocol    = "tcp"
-      self_reference = true
-
-      source = "0.0.0.0/0"
+      description = "SSH connexion"
+      from_port   = 22
+      to_port     = 22
+      ip_protocol = "tcp"
+      source      = "0.0.0.0/0"
     }
   ]
 }
