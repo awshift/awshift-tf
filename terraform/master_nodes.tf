@@ -27,14 +27,6 @@ module "master_sg" {
       source = "0.0.0.0/0"
     },
     {
-      description = "Host level services, including the node exporter on ports 9100-9101 and the Cluster Version Operator on port 9099."
-      from_port   = 10250
-      to_port     = 10250
-      ip_protocol = "tcp"
-
-      source = "0.0.0.0/0"
-    },
-    {
       description = "The default ports that Kubernetes reserves"
       from_port   = 6443
       to_port     = 6443
@@ -55,6 +47,8 @@ module "master_sg" {
       to_port        = 22
       ip_protocol    = "tcp"
       self_reference = true
+
+      source = "0.0.0.0/0"
     },
   ]
 }

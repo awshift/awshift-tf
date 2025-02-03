@@ -1,3 +1,6 @@
-# output "okd_admin_ipaddress" {
-#   value = aws_instance.okd_admin.public_ip
-# }
+output "master" {
+  value = module.master_instances[0].public_ips
+}
+output "worker" {
+  value = module.worker_instances[*].public_ips
+}
