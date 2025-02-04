@@ -1,5 +1,5 @@
 resource "aws_instance" "main" {
-  ami                    = var.ami != "" ? var.ami : local.fedoracoreOS
+  ami                    = var.ami != "" ? var.ami : local.ubuntuOS
   instance_type          = local.instance_type
   key_name               = var.key_name
   subnet_id              = var.subnet_id

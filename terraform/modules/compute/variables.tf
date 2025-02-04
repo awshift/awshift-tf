@@ -11,20 +11,20 @@ variable "node_type" {
 }
 
 locals {
-  fedoracoreOS = "ami-011931490025934ea" # FedoraCoreOS v41
+  ubuntuOS = "ami-09a9858973b288bdd" # Ubuntu 24.04
 
-  boostrap_instance_type   = "t3.xlarge" # CPU : 4 | RAM : 16GB
-  controller_instance_type = "m5.large"  # CPU : 4 | RAM : 16GB
-  compute_instance_type    = "t3.large"  # CPU : 2 | RAM : 8GB
+  bastion_instance_type    = "t3.micro" # CPU : 2 | RAM : 1GB
+  controller_instance_type = "m5.large" # CPU : 4 | RAM : 16GB
+  compute_instance_type    = "t3.large" # CPU : 2 | RAM : 8GB
   # okd-admin_instance_type  = "t3.large"  # CPU : 2 | RAM : 8GB
 
 
   # For node type condition
   compute    = var.node_type == "compute" ? local.compute_instance_type : ""
   controller = var.node_type == "controller" ? local.controller_instance_type : ""
-  bootstrap  = var.node_type == "bootstrap" ? local.boostrap_instance_type : ""
+  bastion    = var.node_type == "bastion" ? local.bastion_instance_type : ""
   # okd-admin     = var.node_type == "okd-admin" ? local.okd-admin_instance_type : ""
-  instance_type = coalesce(local.compute, local.controller, local.bootstrap)
+  instance_type = coalesce(local.compute, local.controller, local.bastion)
 
 }
 
