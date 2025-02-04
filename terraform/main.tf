@@ -5,7 +5,7 @@ module "vpc" {
 
   name_prefix           = var.name_prefix
   number_private_subnet = 1
-  number_public_subnet  = 1
+  number_public_subnet  = 2
 }
 
 resource "local_file" "inventory" {
@@ -16,16 +16,4 @@ resource "local_file" "inventory" {
     worker_ips = join("\n", module.worker_instances[*].private_ips)
     master_ips = module.master_instances[0].private_ips
   })
-
-  # provisioner "file" {
-  #   source      = "./inventory"
-  #   destination = "/home/ubuntu/inventory"
-  # }
-
-  # connection {
-  #   type        = "ssh"
-  #   host        = module.bastion_instance.public_ips
-  #   user        = "ubuntu"
-  #   private_key = file("./scripts/awshift.pem")
-  # }
 }
