@@ -15,7 +15,7 @@ Tout a commencé avec une ambition claire : déployer une infrastructure Kuberne
 
 ### Le Projet Initial : OpenShift sur AWS
 
-![Infrastructure OpenShift]
+![Infrastructure OpenShift](./imgs/ocp.png)
 *Notre première architecture, ses promesses et ses limites*
 
 #### Les Défis Rencontrés
@@ -32,7 +32,7 @@ Ces contraintes nous ont forcés à repenser notre stratégie. Et si notre solut
 Notre pivot stratégique est né de la nécessité d'une solution plus légère, plus agile et mieux adaptée à nos besoins réels.
 
 ![Infrastructure RKE2]
-*Notre nouvelle architecture, plus simple et plus puissante*
+*Notre nouvelle architecture, plan B pour répondre aux objectifs*
 
 ### Pourquoi RKE2 ?
 RKE2 n'était pas qu'un changement technique, mais une transformation philosophique de notre approche :
@@ -90,8 +90,6 @@ Nous ne nous arrêtons pas là. Notre feuille de route inclut :
 - Documentation et partage de notre expérience
 
 ## Conclusion
-
-Un projet cloud réussi n'est pas un aboutissement, mais un voyage d'apprentissage constant.
 
 **Merci**
 
