@@ -5,3 +5,7 @@ output "public_ips" {
 output "private_ips" {
   value = aws_instance.main.private_ip
 }
+
+output "instance" {
+  value = aws_instance.main
+}

@@ -17,15 +17,15 @@ resource "local_file" "inventory" {
     master_ips = module.master_instances[0].private_ips
   })
 
-  provisioner "file" {
-    source      = "./inventory"
-    destination = "/home/ubuntu/awshift-tf/ansible/inventory"
-  }
+  # provisioner "file" {
+  #   source      = "./inventory"
+  #   destination = "/home/ubuntu/inventory"
+  # }
 
-  connection {
-    type        = "ssh"
-    host        = module.bastion_instance.public_ips
-    user        = "ubuntu"
-    private_key = file("./scripts/awshift.pem")
-  }
+  # connection {
+  #   type        = "ssh"
+  #   host        = module.bastion_instance.public_ips
+  #   user        = "ubuntu"
+  #   private_key = file("./scripts/awshift.pem")
+  # }
 }

@@ -11,3 +11,7 @@ output "public_subnet" {
 output "private_subnet" {
   value = aws_subnet.private
 }
+
+output "subnet_ids" {
+  value = concat(aws_subnet.private[*].id, aws_subnet.public[*].id)
+}

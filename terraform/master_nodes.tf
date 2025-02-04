@@ -29,7 +29,7 @@ module "master_sg" {
     {
       description = "The default ports that Kubernetes reserves"
       from_port   = 6443
-      to_port     = 6443
+      to_port     = 6444
       ip_protocol = "tcp"
 
       source = "0.0.0.0/0"
