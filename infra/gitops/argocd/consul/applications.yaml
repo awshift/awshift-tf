@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: consul
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: consul
+    repoURL: https://helm.releases.hashicorp.com
+    targetRevision: 1.2.0
+    helm:
+      values: |
+        global:
+          name: consul
+          datacenter: dc1
+          metrics:
+            enabled: true
+            enableServiceMetrics: true
+        
+        server:
+          replicas: 3
+          bootstrapExpect: 3
+          disruptionBudget:
+            enabled: true
+            maxUnavailable: 1
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+        
+        client:
+          enabled: true
+          grpc: true
+        
+        connectInject:
+          enabled: true
+        
+        controller:
+          enabled: true
+        
+        meshGateway:
+          enabled: false  # Activer si besoin de multi-cluster
+        
+        ui:
+          enabled: true
+          service:
+            type: ClusterIP
+        
+        ingress:
+          enabled: true
+          hosts:
+            - consul.yourdomain.com
+          annotations:
+            kubernetes.io/ingress.class: nginx
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: consul
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
