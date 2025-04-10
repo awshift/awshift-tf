@@ -1,8 +1,12 @@
+variable "AWS_REGION" { default = "" }
+variable "AWS_ACCESS_KEY_ID" { default = "" }
+variable "AWS_SECRET_ACCESS_KEY" { default = "" }
+
 variable "region" {
   description = "Default AWS region for the project"
   type        = string
   # For this project, we need to use Stockholm region
-  default = "eu-north-1"
+  default = "eu-west-3"
 }
 
 variable "profile" {
@@ -26,20 +30,9 @@ variable "key_name" {
   default = "awshift-keypair"
 }
 
-variable "cidr_block" {
-  description = "Default value for vpc awshift"
+variable "ami" {
+  description = "Default ami for all instances"
   type        = string
 
-  default = "10.0.0.0/16"
-}
-
-variable "AWS_REGION" {
-
-}
-
-variable "AWS_ACCESS_KEY_ID" {
-
-}
-variable "AWS_SECRET_ACCESS_KEY" {
-
+  default = "ami-0160e8d70ebc43ee1"
 }

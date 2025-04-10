@@ -1,27 +1,15 @@
 module "worker_instances" {
   source = "./modules/compute"
-  count  = 3
+  count  = 4
 
-  node_type = "compute"
+  name_prefix = "${var.name_prefix}-worker-${count.index}"
+  key_name    = var.key_name
 
-  instance_name = "${var.name_prefix}-worker-node-${count.index + 1}"
-  key_name      = var.key_name
+  ami           = var.ami
+  instance_type = "t3a.large"
+  vpc_id        = data.aws_vpc.default.id
 
-  vpc_security_group_ids = [module.worker_sg.security_group_id]
-  subnet_id              = module.vpc.public_subnet[0].id
-  user_data = templatefile("./scripts/webapp.sh", {
-    AWS_REGION            = var.AWS_REGION
-    AWS_ACCESS_KEY_ID     = var.AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
-  })
-}
-
-module "worker_sg" {
-  source = "./modules/securitygroup"
-
-  description = "Main security group for all worker nodes"
-  vpc_id      = module.vpc.vpc.id
-  name_prefix = "${var.name_prefix}-worker"
+  subnet_id = data.aws_subnets.default.ids[0]
 
   ingress_rules = [
     {
@@ -40,11 +28,11 @@ module "worker_sg" {
       source = "0.0.0.0/0"
     },
     {
-      description    = "Control Plane to Control Plane"
-      from_port      = 2379
-      to_port        = 2381
-      ip_protocol    = "tcp"
-      self_reference = true
+      description = "Control Plane to Control Plane"
+      from_port   = 2379
+      to_port     = 2381
+      ip_protocol = "tcp"
+      source      = "0.0.0.0/0"
     },
     {
       description = "SSH connexion"
@@ -60,4 +48,10 @@ module "worker_sg" {
       ip_protocol = "tcp"
       source      = "0.0.0.0/0"
   }]
+
+  user_data = templatefile("./scripts/webapp.sh", {
+    AWS_REGION            = var.AWS_REGION
+    AWS_ACCESS_KEY_ID     = var.AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
+  })
 }

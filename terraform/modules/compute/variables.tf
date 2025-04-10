@@ -1,36 +1,16 @@
+variable "name_prefix" {
+  description = "Value to prefix the name of the instance"
+  type        = string
+}
+
 variable "ami" {
   description = "Main ami"
   type        = string
-
-  default = ""
 }
 
-variable "node_type" {
-  description = "Type of node you want to configure : controller, compute, boostrap"
+variable "vpc_id" {
+  description = "VPC ID"
   type        = string
-}
-
-locals {
-  ubuntuOS = "ami-09a9858973b288bdd" # Ubuntu 24.04
-
-  bastion_instance_type    = "t3.micro" # CPU : 2 | RAM : 1GB
-  controller_instance_type = "m5.large" # CPU : 4 | RAM : 16GB
-  compute_instance_type    = "t3.large" # CPU : 2 | RAM : 8GB
-  # okd-admin_instance_type  = "t3.large"  # CPU : 2 | RAM : 8GB
-
-
-  # For node type condition
-  compute    = var.node_type == "compute" ? local.compute_instance_type : ""
-  controller = var.node_type == "controller" ? local.controller_instance_type : ""
-  bastion    = var.node_type == "bastion" ? local.bastion_instance_type : ""
-  # okd-admin     = var.node_type == "okd-admin" ? local.okd-admin_instance_type : ""
-  instance_type = coalesce(local.compute, local.controller, local.bastion)
-
-}
-
-variable "vpc_security_group_ids" {
-  description = "Set of string of differents security attaches to the ec2 instance"
-  type        = set(string)
 }
 
 variable "key_name" {
@@ -43,13 +23,27 @@ variable "subnet_id" {
   type        = string
 }
 
-variable "instance_name" {
-  description = "Instance name"
-  type        = string
-}
-
 variable "user_data" {
   description = "User data"
   type        = string
   default     = ""
+}
+
+variable "instance_type" {
+  description = "Instance type"
+  type        = string
+  default     = "t3.nano"
+}
+
+variable "ingress_rules" {
+  description = "List of ingress rules"
+  type = list(object({
+    description    = string
+    from_port      = number
+    to_port        = optional(number)
+    ip_protocol    = string
+    source         = string
+    self_reference = optional(bool)
+  }))
+  default = []
 }
