@@ -28,6 +28,14 @@ module "master_instances" {
       source = "0.0.0.0/0"
     },
     {
+      description = ""
+      from_port   = 9345
+      to_port     = 9345
+      ip_protocol = "tcp"
+
+      source = "0.0.0.0/0"
+    },
+    {
       description = "Control Plane to Control Plane"
       from_port   = 2379
       to_port     = 2381
