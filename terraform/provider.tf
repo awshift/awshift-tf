@@ -6,9 +6,9 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "awshift-backend"
-    key    = "state/compute.tfstate"
-    region = "eu-north-1"
+    bucket = "awshift"
+    key    = "state/terraform.tfstate"
+    region = "eu-west-3"
   }
 }
 

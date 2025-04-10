@@ -1,11 +1,21 @@
-module "vpc" {
-  source = "./modules/vpc"
+data "aws_vpc" "default" {
+  default = true
+}
 
-  cidr_block = var.cidr_block
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+}
 
-  name_prefix           = var.name_prefix
-  number_private_subnet = 1
-  number_public_subnet  = 2
+resource "aws_subnet" "private" {
+  vpc_id     = data.aws_vpc.default.id
+  cidr_block = "172.31.64.0/20"
+
+  tags = {
+    Name = "private-subnet"
+  }
 }
 
 resource "local_file" "inventory" {

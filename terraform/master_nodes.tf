@@ -2,21 +2,14 @@ module "master_instances" {
   source = "./modules/compute"
   count  = 1
 
-  node_type = "controller"
-
-  instance_name = "${var.name_prefix}-master-node-${count.index + 1}"
-  key_name      = var.key_name
-
-  vpc_security_group_ids = [module.master_sg.security_group_id]
-  subnet_id              = module.vpc.public_subnet[0].id
-}
-
-module "master_sg" {
-  source = "./modules/securitygroup"
-
-  description = "Main security group for all of master nodes"
-  vpc_id      = module.vpc.vpc.id
   name_prefix = "${var.name_prefix}-master"
+  key_name    = var.key_name
+
+  ami           = var.ami
+  instance_type = "t3a.large"
+  vpc_id        = data.aws_vpc.default.id
+
+  subnet_id = aws_subnet.private.id
 
   ingress_rules = [
     {
@@ -35,11 +28,11 @@ module "master_sg" {
       source = "0.0.0.0/0"
     },
     {
-      description    = "Control Plane to Control Plane"
-      from_port      = 2379
-      to_port        = 2381
-      ip_protocol    = "tcp"
-      self_reference = true
+      description = "Control Plane to Control Plane"
+      from_port   = 2379
+      to_port     = 2381
+      ip_protocol = "tcp"
+      source      = "0.0.0.0/0"
     },
     {
       description = "SSH connexion"

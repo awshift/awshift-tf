@@ -1,5 +1,5 @@
 output "bastion_public_ip" {
-  value = module.bastion_instance.public_ips
+  value = try(module.bastion_instance.public_ips, "")
 }
 
 output "master_private_ip" {
