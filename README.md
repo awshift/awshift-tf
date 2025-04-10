@@ -8,4 +8,4 @@ quaktuss : Mathieu
 
 kholius : Evan
 
-![Roadmap](images/roadmap-conteneurisation.png)
+![Roadmap](imgs/roadmap-conteneurisation.png)
