@@ -5,6 +5,12 @@ resource "aws_instance" "main" {
   subnet_id              = var.subnet_id
   vpc_security_group_ids = [aws_security_group.main.id]
   user_data              = var.user_data
+  availability_zone      = "eu-west-3a"
+
+  root_block_device {
+    volume_size = 100
+    volume_type = "gp3"
+  }
 
   tags = {
     "Name" = "${var.name_prefix}-node"
