@@ -9,7 +9,7 @@ module "master_instances" {
   instance_type = "t3a.large"
   vpc_id        = data.aws_vpc.default.id
 
-  subnet_id = data.aws_subnets.default.ids[0]
+  subnet_id = aws_subnet.private.id
 
   ingress_rules = [
     {

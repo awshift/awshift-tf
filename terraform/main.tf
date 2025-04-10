@@ -9,27 +9,12 @@ data "aws_subnets" "default" {
   }
 }
 
-data "aws_subnets" "public" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
+resource "aws_subnet" "private" {
+  vpc_id     = data.aws_vpc.default.id
+  cidr_block = "172.31.64.0/20"
 
-  filter {
-    name   = "tag:Type"
-    values = ["public"]
-  }
-}
-
-data "aws_subnets" "private" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
-
-  filter {
-    name   = "tag:Type"
-    values = ["private"]
+  tags = {
+    Name = "private-subnet"
   }
 }
 
