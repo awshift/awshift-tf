@@ -7,11 +7,7 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "public" {
-  count = var.number_public_subnet
-  availability_zone = element(
-    ["eu-north-1a", "eu-north-1b", "eu-north-1c"],
-    count.index
-  )
+  count      = var.number_public_subnet
   vpc_id     = aws_vpc.main.id
   cidr_block = cidrsubnet(var.cidr_block, local.total_subnets, count.index)
 
@@ -25,12 +21,8 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  count  = var.number_private_subnet
-  vpc_id = aws_vpc.main.id
-  availability_zone = element(
-    ["eu-north-1a", "eu-north-1b", "eu-north-1c"],
-    count.index
-  )
+  count      = var.number_public_subnet
+  vpc_id     = aws_vpc.main.id
   cidr_block = cidrsubnet(var.cidr_block, local.total_subnets, count.index + var.number_public_subnet)
 
   tags = {

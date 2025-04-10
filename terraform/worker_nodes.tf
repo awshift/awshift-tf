@@ -9,11 +9,6 @@ module "worker_instances" {
 
   vpc_security_group_ids = [module.worker_sg.security_group_id]
   subnet_id              = module.vpc.public_subnet[0].id
-  user_data = templatefile("./scripts/webapp.sh", {
-    AWS_REGION            = var.AWS_REGION
-    AWS_ACCESS_KEY_ID     = var.AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
-  })
 }
 
 module "worker_sg" {
@@ -52,12 +47,6 @@ module "worker_sg" {
       to_port     = 22
       ip_protocol = "tcp"
       source      = "0.0.0.0/0"
-    },
-    {
-      description = "SSH connexion"
-      from_port   = 0
-      to_port     = 65000
-      ip_protocol = "tcp"
-      source      = "0.0.0.0/0"
-  }]
+    }
+  ]
 }

@@ -1,11 +1,10 @@
-output "bastion_public_ip" {
-  value = module.bastion_instance.public_ips
+output "bastion" {
+  value = module.bastion_instance[0].public_ips
 }
 
-output "master_private_ip" {
+output "master" {
   value = module.master_instances[0].public_ips
 }
-
-output "workers_private_ips" {
+output "worker" {
   value = module.worker_instances[*].private_ips
 }
