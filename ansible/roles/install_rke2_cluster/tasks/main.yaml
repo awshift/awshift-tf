@@ -181,12 +181,13 @@
       server: https://{{ first_master }}:9345
       token: {{ node_token }}
       write-kubeconfig-mode: "0644"
+      node-name: {{ ansible_facts['ansible_hostname'] }}
   when: inventory_hostname in groups['worker']
 
 - name: Start and Enable rke2
   service:
     name: rke2-agent
-    state: started
+    state: stopped
     enabled: yes
   when: inventory_hostname in groups['worker']
 
