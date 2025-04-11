@@ -19,4 +19,4 @@ nodeGroups:
     volumeSize: 100
     ssh:
       allow: true
-      publicKeyName: awshift-keypair
+      publicKeyName: <keypair>

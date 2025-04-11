@@ -1,0 +1,17 @@
+kind: PodChaos
+apiVersion: chaos-mesh.org/v1alpha1
+metadata:
+  namespace: chaos-mesh
+  name: thanos-kill-chaos
+spec:
+  selector:
+    namespaces:
+      - chaos-mesh
+    pods:
+      chaos-mesh:
+        - chaos-daemon-pgsfw
+        - chaos-daemon-kglm4
+        - chaos-controller-manager-5db79b98bb-ngfvv
+        - chaos-controller-manager-5db79b98bb-m2ms8
+  mode: all
+  action: pod-kill
