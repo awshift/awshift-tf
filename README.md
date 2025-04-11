@@ -1,4 +1,4 @@
-# AWSHIFT
+# AWSHIFT - M2INFRACLOUD
 
 ## Who is who
 
@@ -8,43 +8,33 @@ quaktuss : Mathieu
 
 kholius : Evan
 
+## Road Map
 ![Roadmap](imgs/roadmap-conteneurisation.png)
 
-## ChaosMonkey
+## Create EKS Cluster
+### Prerequisites
+- awscli
+- kubectl
 
-First, Deploy Spinnaker
+### Install eksctl
+```bash
+curl -LO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname | tr '[:upper:]' '[:lower:]')_amd64.tar.gz" 
+ 
+tar -xzf eksctl_*_amd64.tar.gz 
+ 
+sudo mv eksctl /usr/local/bin/ 
+ 
+eksctl version 
 ```
-chmod +x hal-init.sh
 
-docker compose -f docker-compose.hal.yml run -d
+### Create the cluster
+On the project root path, run : 
+```bash
+eksctl create cluster -f eks-cluster.yaml 
 ```
 
-KUBECONFIG=/home/spinnaker/.kube/config kubectl config current-context
+### Delete the cluster
+```bash
+eksctl delete cluster --name <my-cluster> --region <region-code>
 
-export KUBECONFIG=/home/spinnaker/.kube/config
-
-hal config deploy edit --type distributed --account-name default
-
-
-hal config storage s3 edit \
-    --access-key-id <access-key-id> \
-    --secret-access-key \
-    --region eu-west-3
-
-hal config storage edit --type s3
-
-
-hal version list
-hal config version edit --version 1.35.5
-
-cp -r /home/spinnaker/.kube /root/.kube/
-cp /home/spinnaker/.kube/config /root/.kube/config
-
-3. then edit /home/spinnaker/.hal/config and set kubernetes.kubeconfigFile to /home/spinnaker/.kube/config
-
-hal deploy apply
-
-hal deploy connect
-
-
-kubectl patch svc spin-deck -n spinnaker --patch '{"spec":{"type":"NodePort"}}'
+```
