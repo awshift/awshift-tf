@@ -6,7 +6,6 @@ metadata:
 spec:
   project: default
   source:
-    chart: vault
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: 0.25.0
     helm:
@@ -40,3 +39,9 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

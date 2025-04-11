@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/awshift/awshift-tf.git
     targetRevision: gitops
-    path: infra/gitops/argocd/rgatt
+    path: infra/gitops/argocd/app/
   destination:
     server: https://kubernetes.default.svc
     namespace: rgatt
