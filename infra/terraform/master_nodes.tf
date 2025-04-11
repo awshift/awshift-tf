@@ -1,6 +1,6 @@
 module "master_instances" {
   source = "./modules/compute"
-  count  = 1
+  count  = 2
 
   name_prefix = "${var.name_prefix}-master"
   key_name    = var.key_name
@@ -22,7 +22,7 @@ module "master_instances" {
     {
       description = "The default ports that Kubernetes reserves"
       from_port   = 6443
-      to_port     = 6444
+      to_port     = 6443
       ip_protocol = "tcp"
 
       source = "0.0.0.0/0"
@@ -49,12 +49,5 @@ module "master_instances" {
       ip_protocol = "tcp"
       source      = "0.0.0.0/0"
     },
-    {
-      description = "NodePort port range"
-      from_port   = 30000
-      to_port     = 32767
-      ip_protocol = "tcp"
-      source      = "0.0.0.0/0"
-    }
   ]
 }

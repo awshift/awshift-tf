@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rgatt
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/awshift/awshift-tf.git
+    targetRevision: gitops
+    path: infra/gitops/argocd/app/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: rgatt
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
