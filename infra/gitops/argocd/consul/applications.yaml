@@ -6,56 +6,29 @@ metadata:
 spec:
   project: default
   source:
-    chart: consul
     repoURL: https://helm.releases.hashicorp.com
-    targetRevision: 1.2.0
+    targetRevision: 1.0.0
+    chart: consul
     helm:
       values: |
         global:
           name: consul
           datacenter: dc1
-          metrics:
-            enabled: true
-            enableServiceMetrics: true
-        
+          image: hashicorp/consul:1.14.4
         server:
-          replicas: 3
+          replicas: 3  # Optimisé pour vos 4 workers
           bootstrapExpect: 3
           disruptionBudget:
             enabled: true
-            maxUnavailable: 1
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-            requests:
-              cpu: 500m
-              memory: 512Mi
-        
-        client:
-          enabled: true
-          grpc: true
-        
-        connectInject:
-          enabled: true
-        
-        controller:
-          enabled: true
-        
-        meshGateway:
-          enabled: false  # Activer si besoin de multi-cluster
-        
-        ui:
-          enabled: true
-          service:
-            type: ClusterIP
-        
-        ingress:
-          enabled: true
-          hosts:
-            - consul.yourdomain.com
-          annotations:
-            kubernetes.io/ingress.class: nginx
+            maxUnavailable: 0
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchLabels:
+                    app: consul
+                    component: server
+                topologyKey: kubernetes.io/hostname
   destination:
     server: https://kubernetes.default.svc
     namespace: consul
@@ -65,3 +38,9 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
