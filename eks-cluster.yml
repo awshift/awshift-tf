@@ -1,0 +1,22 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+ 
+metadata:
+  name: awshift-eks
+  region: eu-west-3
+  version: "1.32"
+ 
+nodeGroups:
+  - name: awshift-node
+    instanceType: t3.medium
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+        cloudWatch: true
+    desiredCapacity: 3
+    minSize: 1
+    maxSize: 3
+    volumeSize: 100
+    ssh:
+      allow: true
+      publicKeyName: awshift-keypair
