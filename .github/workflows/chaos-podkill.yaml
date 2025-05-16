@@ -1,0 +1,23 @@
+name: Chaos Mesh kill pod
+run-name: Chaos Mesh kill Pod run by ${{ github.actor }}
+on: [push]
+jobs:
+  chaos-pod-kill
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Install Helm
+        uses: azure/setup-helm@v4.3.0
+
+      - name: 🔐 Configure Kubeconfig
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+      - name: ☠️ Kill one pod
+        run: |
+          helm install -f chaos-rgatt-ci chaos/helm \
+          chaos/value-rgatt.yaml \
+          --set simulation.podKill.enabled=true
