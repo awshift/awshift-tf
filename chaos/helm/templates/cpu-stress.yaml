@@ -1,0 +1,22 @@
+# This experiment configuration will create a process in the selected container(s), 
+# continuously allocate and read and write in cpu, occupying up to XXXX of cpu.
+# cf. chaos-mesh.org documentation
+{{- if .Values.simulation.cpuStress.enabled }}
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: chaos-{{ .Values.global.name_prefix }}-memory-stress
+  namespace: {{ .Values.global.namespace }}
+spec:
+  duration: {{ .Values.simulation.cpuStress.duration }}
+  stressors:
+    cpu:
+        workers: {{ .Values.simulation.cpuStress.workers }}
+        load: {{ .Values.simulation.cpuStress.load }}
+  mode: {{ .Values.simulation.cpuStress.mode }}
+  value: {{ .Values.simulation.cpuStress.value }}
+  selector:
+    labelSelectors:
+      {{- range $key, $value := .Values.global.labelSelector }}
+      {{ $key }}: "{{ $value }}"
+{{- end }}

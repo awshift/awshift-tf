@@ -1,0 +1,23 @@
+# This configuration causes a latency of XX milliseconds (or more)
+# in the network connections of the target Pods
+# cf. chaos-mesh.org documentation
+{{- if .Values.simulation.networkDelay.enabled }}
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: chaos-{{ .Values.global.namePrefix }}-network-delay
+  namespace: {{ .Values.global.namespace }}
+spec:
+  action: delay
+  mode: {{ .Values.simulation.networkDelay.mode }}
+  {{- if eq .Values.simulation.networkDelay.mode "fixed-percent" }}
+  value: {{ .Values.simulation.networkDelay.value | default "50" }}
+  {{- end }}  delay:
+    latency: {{ .Values.simulation.networkDelay.latency | default "4s" }}
+    correlation: {{ .Values.simulation.networkDelay.correlation | default "100" }}
+    jitter: '0ms'
+  selector:
+    labelSelectors:
+      {{- range $key, $value := .Values.global.labelSelector }}
+      {{ $key }}: "{{ $value }}"
+{{- end }}

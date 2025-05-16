@@ -1,0 +1,23 @@
+# This experiment configuration will create a process in the selected container(s), 
+# continuously allocate and read and write in memory, occupying up to XXXX of memory.
+# cf. chaos-mesh.org documentation
+{{- if .Values.simulation.memoryStress.enabled }}
+apiVersion: chaos-mesh.org/v1alpha1
+kind: StressChaos
+metadata:
+  name: chaos-{{ .Values.global.name_prefix }}-memory-stress
+  namespace: {{ .Values.global.namespace }}
+spec:
+  duration: {{ .Values.simulation.memoryStress.duration }}
+  stressors:
+    memory:
+        workers: {{ .Values.simulation.memoryStress.workers }}
+        size: {{ .Values.simulation.memoryStress.size }}
+        time: "30s"
+  mode: {{ .Values.simulation.memoryStress.mode }}
+  value: {{ .Values.simulation.memoryStress.value }}
+  selector:
+    labelSelectors:
+      {{- range $key, $value := .Values.global.labelSelector }}
+      {{ $key }}: "{{ $value }}"
+{{- end }}

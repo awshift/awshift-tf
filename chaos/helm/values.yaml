@@ -1,0 +1,29 @@
+global:
+  namespace: "chaos-mesh"
+  namePrefix: default
+  labelSelector:
+    app: default
+
+simulation:
+  podKill:
+    enabled: false
+    mode: fixed-percent
+    value: "0"
+
+  podFailure:
+    enabled: false
+    mode: fixed-percent
+    value: "50"
+    duration: "2m"
+
+  networkDelay:
+    enabled: false
+    mode: one
+    latency: "10s"
+    correlation: "50"
+
+  memoryStress:
+    enabled: false
+    duration: "5m"
+    workers: 1
+    size: "85%"

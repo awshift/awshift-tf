@@ -1,0 +1,16 @@
+{{- if .Values.simulation.podFailure.enabled }}
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: chaos-{{ .Values.global.name_prefix }}-pod-failure
+  namespace: {{ .Values.global.namespace }}
+spec:
+  action: pod-failure
+  mode: {{ .Values.simulation.podFailure.mode }}
+  value: {{ .Values.simulation.podFailure.value }}
+  duration: {{ .Values.simulation.podFailure.duration }}
+  selector:
+    labelSelectors:
+      {{- range $key, $value := .Values.global.labelSelector }}
+      {{ $key }}: "{{ $value }}"
+{{- end }}
