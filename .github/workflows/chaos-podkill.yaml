@@ -16,8 +16,19 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
-      - name: ☠️ Kill one pod
+
+      - run: |
+          echo "📋 rgatt pods before pod-kill :"
+          kubectl get pods -l app=rgatt -o wide
+
+      - name: ☠️ Kill one pod with Chaos Mesh
         run: |
           helm install -f chaos-rgatt-ci chaos/helm \
           chaos/value-rgatt.yaml \
           --set simulation.podKill.enabled=true
+
+      - run: sleep 10          
+
+      - run: |
+          echo "📋 rgatt pods after pod-kill :"
+          kubectl get pods -l app=rgatt -o wide
