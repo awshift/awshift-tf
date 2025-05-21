@@ -23,10 +23,9 @@ jobs:
 
       - name: ☠️ Kill one pod with Chaos Mesh
         run: |
-          helm install -f chaos-rgatt-ci chaos/helm \
-          chaos/value-rgatt.yaml \
-          --set simulation.podKill.enabled=true
-
+          helm install chaos-rgatt-ci ./chaos/helm \
+            -f ./chaos/value-rgatt.yaml \
+            --set simulation.podKill.enabled=true
       - run: sleep 10          
 
       - run: |

@@ -1,6 +1,6 @@
 global:
   namespace: "chaos-mesh"
-  namePrefix: "rgatt"
+  name_prefix: "rgatt"
   labelSelector:
     app: rgatt
 
@@ -27,3 +27,9 @@ simulation:
     duration: "5m"
     workers: 1
     size: "85%"
+
+  cpuStress:
+    enabled: false
+    duration: "5m"
+    workers: 1
+    load: "75"

@@ -13,10 +13,10 @@ nodeGroups:
       withAddonPolicies:
         autoScaler: true
         cloudWatch: true
-    desiredCapacity: 3
+    desiredCapacity: 2
     minSize: 1
     maxSize: 3
     volumeSize: 100
     ssh:
       allow: true
-      publicKeyName: <keypair>
+      publicKeyName: awshift-keypair

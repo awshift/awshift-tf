@@ -15,6 +15,7 @@ kholius : Evan
 ### Prerequisites
 - awscli
 - kubectl
+- eksctl
 
 ### Install eksctl
 ```bash
@@ -36,5 +37,4 @@ eksctl create cluster -f eks-cluster.yaml
 ### Delete the cluster
 ```bash
 eksctl delete cluster --name <my-cluster> --region <region-code>
-
 ```

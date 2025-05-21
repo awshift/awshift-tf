@@ -20,4 +20,5 @@ spec:
     labelSelectors:
       {{- range $key, $value := .Values.global.labelSelector }}
       {{ $key }}: "{{ $value }}"
+      {{- end }}
 {{- end }}
