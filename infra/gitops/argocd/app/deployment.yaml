@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: rgatt
-        image: docker.io/sayk/rgatt:ed5499495ca4942b7a93712b22f3fca3ce03592f
+        image: docker.io/sayk/rgatt:ec20ef5e615f06c85615ecd37ac41e35ddcb43c3
         ports:
         - containerPort: 8080
 ---
