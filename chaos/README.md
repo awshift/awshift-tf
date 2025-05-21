@@ -12,7 +12,10 @@ kubectl create ns chaos-mesh
 
 ### 3. Install Chaos Mesh
 ```bash
-helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-mesh --set chaosDaemon.runtime=containerd --set chaosDaemon.socketPath=/run/containerd/containerd.sock --version 2.7.1
+helm install chaos-mesh chaos-mesh/chaos-mesh -n=chaos-mesh \
+--set chaosDaemon.runtime=containerd \
+--set chaosDaemon.socketPath=/run/containerd/containerd.sock \
+--version 2.7.1
 ```
 
 ### 4. Verify the installation
@@ -34,4 +37,10 @@ kubectl apply -f rbac.yaml
 Get the token 
 ```bash
 kubectl create token account-cluster-manager
+```
+
+```bash
+helm install -f chaos-rgatt-ci chaos/helm \
+chaos/value-rgatt.yaml \
+--set simulation.podKill.enabled=true
 ```
