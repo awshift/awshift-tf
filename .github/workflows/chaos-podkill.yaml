@@ -2,7 +2,7 @@ name: Chaos Mesh kill pod
 run-name: Chaos Mesh kill Pod run by ${{ github.actor }}
 on: [push]
 jobs:
-  chaos-pod-kill
+  chaos-pod-kill:
     runs-on: ubuntu-latest
     steps:
       - name: 📦 Checkout repository
