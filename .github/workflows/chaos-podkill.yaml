@@ -29,7 +29,6 @@ jobs:
             --namespace rgatt \
             -f ./chaos/value-rgatt.yaml \
             --set simulation.podKill.enabled=true \
-            --set global.namespace=rgatt | \
           kubectl apply -f -
       - run: sleep 10          
       - run: |

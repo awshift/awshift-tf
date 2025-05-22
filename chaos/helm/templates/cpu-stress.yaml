@@ -16,6 +16,8 @@ spec:
   mode: {{ .Values.simulation.cpuStress.mode }}
   value: {{ .Values.simulation.cpuStress.value }}
   selector:
+    namespaces:
+      - {{ .Values.simulation.targetNamespace }}
     labelSelectors:
       {{- range $key, $value := .Values.global.labelSelector }}
       {{ $key }}: "{{ $value }}"
