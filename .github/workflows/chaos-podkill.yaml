@@ -17,7 +17,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
-          
+
       - name: 🔐 Configure Kubeconfig
         uses: azure/k8s-set-context@v4
         with:
@@ -27,7 +27,6 @@ jobs:
       - name: 📋 rgatt pods before pod-kill
         run: |
           kubectl get pods -l app=rgatt -n rgatt -o wide
-          kubectl delete validatingwebhookconfiguration chaos-mesh-validation-auth
 
       - name: ☠️ Kill one pod with Chaos Mesh
         run: |
