@@ -30,16 +30,18 @@ jobs:
 
       - name: ☠️ Kill one pod with Chaos Mesh
         run: |
-          helm upgrade --install chaos-rgatt-ci ./chaos/helm \
+          helm upgrade --install chaos-rgatt-ci ./infra/chaos/helm \
             --namespace chaos-mesh \
-            -f ./chaos/value-rgatt.yaml \
+            -f ./infra/chaos/value-rgatt.yaml \
             --set simulation.podKill.enabled=true
 
-      - run: sleep 10          
-      - run: |
-          echo "📋 rgatt pods after pod-kill :"
+      - name: 🛏️ Sleeping for 10 secondes
+        run: sleep 10          
+
+      - name: 📋 rgatt pods after pod-kill 
+        run: |
           kubectl get pods -l app=rgatt -n rgatt -o wide
       
-      - name: Delete podChaos
+      - name: 🚮 Delete podChaos
         run: |
           kubectl delete podchaos chaos-rgatt-pod-kill -n chaos-mesh
