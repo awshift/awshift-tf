@@ -34,8 +34,12 @@ jobs:
             --namespace chaos-mesh \
             -f ./chaos/value-rgatt.yaml \
             --set simulation.podKill.enabled=true
-            
+
       - run: sleep 10          
       - run: |
           echo "📋 rgatt pods after pod-kill :"
           kubectl get pods -l app=rgatt -n rgatt -o wide
+      
+      - name: Delete podChaos
+        run: |
+          kubectl delete podchaos chaos-rgatt-pod-kill -n chaos-mesh
