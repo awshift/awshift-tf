@@ -4,6 +4,11 @@ kind: PodChaos
 metadata:
   name: chaos-{{ .Values.global.name_prefix }}-pod-kill
   namespace: {{ .Values.global.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: "Helm"
+  annotations:
+    meta.helm.sh/release-name: "{{ .Release.Name }}"
+    meta.helm.sh/release-namespace: "{{ .Release.Namespace }}"
 spec:
   action: pod-kill
   mode: {{ .Values.simulation.podKill.mode }}
