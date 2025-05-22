@@ -10,7 +10,7 @@ spec:
   value: {{ .Values.simulation.podKill.value | quote }}
   selector:
     namespaces:
-      - {{ .Values.simulation.targetNamespace }}
+      - {{ .Values.simulation.podKill.targetNamespace }}
     labelSelectors:
       {{- range $key, $value := .Values.global.labelSelector }}
       {{ $key }}: "{{ $value }}"
