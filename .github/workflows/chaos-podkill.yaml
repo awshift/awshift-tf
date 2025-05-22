@@ -7,34 +7,31 @@ jobs:
     steps:
       - name: 📦 Checkout repository
         uses: actions/checkout@v4
-
       - name: 🛠️ Install Helm
         uses: azure/setup-helm@v4.3.0
-
       - name: ☁️ Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-3  # Votre région AWS
-
+          aws-region: eu-west-3
       - name: 🔐 Configure Kubeconfig
         uses: azure/k8s-set-context@v4
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
-
       - run: |
           echo "📋 rgatt pods before pod-kill :"
-          kubectl get pods -l app=rgatt -o wide
-
+          kubectl get pods -l app=rgatt -n rgatt -o wide
       - name: ☠️ Kill one pod with Chaos Mesh
         run: |
-          helm upgrade chaos-rgatt-ci ./chaos/helm \
+          helm upgrade --install chaos-rgatt-ci ./chaos/helm \
+            --namespace chaos-mesh \
+            --create-namespace \
             -f ./chaos/value-rgatt.yaml \
-            --set simulation.podKill.enabled=true
+            --set simulation.podKill.enabled=true \
+            --set simulation.podKill.value="50"
       - run: sleep 10          
-
       - run: |
           echo "📋 rgatt pods after pod-kill :"
-          kubectl get pods -l app=rgatt -o wide
+          kubectl get pods -l app=rgatt -n rgatt -o wide
