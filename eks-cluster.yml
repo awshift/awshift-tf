@@ -7,15 +7,15 @@ metadata:
   version: "1.32"
  
 nodeGroups:
-  - name: awshift-node
-    instanceType: t3.medium
+  - name: awshift-node-xlarge
+    instanceType: t3.xlarge
     iam:
       withAddonPolicies:
         autoScaler: true
         cloudWatch: true
-    desiredCapacity: 2
+    desiredCapacity: 4
     minSize: 1
-    maxSize: 3
+    maxSize: 10
     volumeSize: 100
     ssh:
       allow: true
