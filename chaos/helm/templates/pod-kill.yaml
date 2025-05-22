@@ -13,6 +13,6 @@ spec:
       - {{ .Values.simulation.podKill.targetNamespace }}
     labelSelectors:
       {{- range $key, $value := .Values.global.labelSelector }}
-      {{ $key }}: "{{ $value }}"
+      {{ $key }}: '{{ $value }}'
       {{- end }}
 {{- end }}

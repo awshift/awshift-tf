@@ -9,12 +9,12 @@ simulation:
     enabled: false
     mode: fixed-percent
     targetNamespace: rgatt
-    value: "50"
+    value: '50'
 
   podFailure:
     enabled: false
     mode: fixed-percent
-    value: "50"
+    value: '50'
     duration: "2m"
 
   networkDelay:
