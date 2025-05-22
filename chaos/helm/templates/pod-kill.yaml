@@ -7,7 +7,7 @@ metadata:
 spec:
   action: pod-kill
   mode: {{ .Values.simulation.podKill.mode }}
-  value: {{ .Values.simulation.podKill.value }}
+  value: '{{ .Values.simulation.podKill.value }}'
   selector:
     namespaces:
       - {{ .Values.simulation.podKill.targetNamespace }}
