@@ -13,6 +13,7 @@ spec:
   action: pod-kill
   mode: {{ .Values.simulation.podKill.mode }}
   value: '{{ .Values.simulation.podKill.value }}'
+  duration: "30s"
   selector:
     namespaces:
       - {{ .Values.simulation.podKill.targetNamespace }}
