@@ -25,18 +25,12 @@ jobs:
           kubectl get pods -l app=rgatt -n rgatt -o wide
       - name: ☠️ Kill one pod with Chaos Mesh
         run: |
-          # Debug du template généré
           helm template chaos-rgatt-ci ./chaos/helm \
-            --namespace chaos-mesh \
+            --namespace rgatt \
             -f ./chaos/value-rgatt.yaml \
             --set simulation.podKill.enabled=true \
-            --set simulation.podKill.value="50" > debug.yaml
-          
-          echo "=== Template ==="
-          cat debug.yaml
-          
-          # Application directe avec kubectl
-          kubectl apply -f debug.yaml
+            --set global.namespace=rgatt | \
+          kubectl apply -f -
       - run: sleep 10          
       - run: |
           echo "📋 rgatt pods after pod-kill :"
