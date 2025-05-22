@@ -29,7 +29,6 @@ jobs:
             --namespace rgatt \
             -f ./chaos/value-rgatt.yaml \
             --set simulation.podKill.enabled=true \
-          kubectl apply -f -
       - run: sleep 10          
       - run: |
           echo "📋 rgatt pods after pod-kill :"
